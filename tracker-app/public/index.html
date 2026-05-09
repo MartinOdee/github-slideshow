@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#6366f1">
+<title>Skill & Project Tracker</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <nav id="sidebar">
+      <div class="brand">
+        <span class="brand-icon">⚡</span>
+        <span class="brand-name">Tracker</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#" data-tab="dashboard" class="active"><span>📊</span> Dashboard</a></li>
+        <li><a href="#" data-tab="skills"><span>🎯</span> Skills</a></li>
+        <li><a href="#" data-tab="projects"><span>🚀</span> Projects</a></li>
+        <li><a href="#" data-tab="todos"><span>✅</span> Todos</a></li>
+        <li><a href="#" data-tab="notes"><span>📝</span> Notes</a></li>
+      </ul>
+    </nav>
+
+    <!-- Mobile top bar -->
+    <header id="topbar">
+      <button id="menu-btn" aria-label="Menu">☰</button>
+      <span class="topbar-title">Tracker</span>
+      <div style="width:40px"></div>
+    </header>
+
+    <!-- Main content -->
+    <main id="content">
+      <!-- DASHBOARD -->
+      <section id="tab-dashboard" class="tab-section active">
+        <div class="page-header">
+          <h1>Dashboard</h1>
+          <span class="subtitle" id="today-date"></span>
+        </div>
+        <div class="stats-grid" id="stats-grid"></div>
+        <div class="dash-cols">
+          <div>
+            <h2 class="section-title">Upcoming Todos</h2>
+            <div id="dash-todos"></div>
+          </div>
+          <div>
+            <h2 class="section-title">Recent Notes</h2>
+            <div id="dash-notes"></div>
+          </div>
+        </div>
+        <div>
+          <h2 class="section-title">Skills Overview</h2>
+          <div id="dash-skills"></div>
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section id="tab-skills" class="tab-section">
+        <div class="page-header">
+          <h1>Skills</h1>
+          <button class="btn-primary" onclick="openModal('skill')">+ Add Skill</button>
+        </div>
+        <div class="filter-bar">
+          <input type="text" id="skill-search" placeholder="Search skills…" oninput="renderSkills()">
+          <select id="skill-cat-filter" onchange="renderSkills()">
+            <option value="">All categories</option>
+          </select>
+        </div>
+        <div id="skills-list" class="card-grid"></div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="tab-projects" class="tab-section">
+        <div class="page-header">
+          <h1>Projects</h1>
+          <button class="btn-primary" onclick="openModal('project')">+ Add Project</button>
+        </div>
+        <div class="filter-bar">
+          <input type="text" id="project-search" placeholder="Search projects…" oninput="renderProjects()">
+          <select id="project-status-filter" onchange="renderProjects()">
+            <option value="">All statuses</option>
+            <option value="active">Active</option>
+            <option value="paused">Paused</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div id="projects-list" class="card-grid"></div>
+      </section>
+
+      <!-- TODOS -->
+      <section id="tab-todos" class="tab-section">
+        <div class="page-header">
+          <h1>Todos</h1>
+          <button class="btn-primary" onclick="openModal('todo')">+ Add Todo</button>
+        </div>
+        <div class="filter-bar">
+          <input type="text" id="todo-search" placeholder="Search todos…" oninput="renderTodos()">
+          <select id="todo-priority-filter" onchange="renderTodos()">
+            <option value="">All priorities</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+          <select id="todo-done-filter" onchange="renderTodos()">
+            <option value="">All</option>
+            <option value="0">Active</option>
+            <option value="1">Done</option>
+          </select>
+        </div>
+        <div id="todos-list"></div>
+      </section>
+
+      <!-- NOTES -->
+      <section id="tab-notes" class="tab-section">
+        <div class="page-header">
+          <h1>Notes</h1>
+          <button class="btn-primary" onclick="openModal('note')">+ Add Note</button>
+        </div>
+        <div class="filter-bar">
+          <input type="text" id="note-search" placeholder="Search notes…" oninput="renderNotes()">
+          <input type="text" id="note-tag-filter" placeholder="Filter by tag…" oninput="renderNotes()">
+        </div>
+        <div id="notes-list" class="card-grid"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ── Modal ── -->
+  <div id="modal-overlay" class="hidden" onclick="closeModal(event)">
+    <div id="modal" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <h2 id="modal-title">Add</h2>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ── Confirm dialog ── -->
+  <div id="confirm-overlay" class="hidden">
+    <div id="confirm-dialog">
+      <p id="confirm-msg">Are you sure?</p>
+      <div class="confirm-btns">
+        <button class="btn-danger" id="confirm-yes">Delete</button>
+        <button class="btn-secondary" onclick="closeConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Toast ── -->
+  <div id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
